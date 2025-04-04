@@ -3,6 +3,7 @@ projekt_1.py: první projekt do Engeto Online Python Akademie
 
 author: Denisa Lišková
 email: liskovadeni@gmail.com
+
 """
 
 TEXTS = [
@@ -58,59 +59,30 @@ else:
     exit()
 print("----------------------------------------")
 
-# Uživatel vybere text.
-
-text_number = input("Enter a number btw. 1 and 3 to select: ")
-
-# Ověření, zda se jedná o číslo.
-
-if not text_number.isdigit():
-    print("Error. Enter a number between 1-3.")
-    exit()
-
-# Ověření, zda je číslo vybráno v rozsahu 1 - 3.
-
-if text_number not in ("1", "2", "3"):
-    print("No such text number exists. You have to choose between 1 - 3.")
-    exit()
-
-# Zjištění počtu slov v textu.
-
-words = TEXTS[int(text_number)-1].split()
-
-# Zjištění počtu slov začínajících velkým písmenem.
+text_number = input("Enter a number btw. 1 and 3 to select: ")  # Uživatel vybere text.
+print("----------------------------------------")
 
 titlecase_words = 0
-
-for word in words:
-    if word[0].isupper():
-        titlecase_words += 1
-
-# Zjištění počtu slov začínajích malými písmeny.
-
 uppercase_words = 0
-
-for word in words:
-    if word.isupper():
-        uppercase_words += 1
-
-# Zjištění počtu slov psaných malými písmeny.
-
 lowercase_words = 0
-
-for word in words:
-    if word.islower():
-        lowercase_words += 1
-
-# Zjištění počtu čísel a součtu čísel.
-
 numeric_strings_count = 0
 numeric_strings_sum = 0
 
-for word in words:
-    if word.isdigit():
-        numeric_strings_count += 1
-        numeric_strings_sum += int(word)
+if text_number.isdigit() and int(text_number) in range(1, 4):  # Ověření, zda se jedná o číslo v rozsahu 1 - 3.
+    words = TEXTS[int(text_number) - 1].split()  # Rozdělení textu na slova
+    for word in words:
+        if word.istitle():  # Zjištění počtu slov začínajících velkým písmenem.
+            titlecase_words += 1
+        elif word.isupper():  # Zjištění počtu slov psaných velkými písmeny.
+            uppercase_words += 1
+        elif word.islower():  # Zjištění počtu slov psaných malými písmeny.
+            lowercase_words += 1
+        elif word.isdigit():  # Zjištění počtu čísel a součtu čísel.
+            numeric_strings_count += 1
+            numeric_strings_sum += int(word) 
+else:
+    print("No such text number exists. You have to choose between 1 - 3.")
+    exit()
 
 print("There are", len(words),"words in the selected text.")
 print("There are", titlecase_words, "titlecase words.")
@@ -122,17 +94,19 @@ print("The sum of all the numbers", numeric_strings_sum)
 # Zobrazení délky slov v textu pomocí grafu.
 
 print("----------------------------------------")
-print(" LEN |     OCCURENCES     | NR.")
+print(f"{'LEN':<4} | {'OCCURENCES':<18} | {'NR.':<3}")
 print("----------------------------------------")
 
 lenghts = {}
 
 for word in words:
-    lenght = len(word)
+    strip_word = word.strip(",.")  # Vymaže čárky a tečky
+
+    lenght = len(strip_word)
     if lenght in lenghts:
         lenghts[lenght] += 1
     else:
         lenghts[lenght] = 1
 
 for lenght in sorted(lenghts.keys()):
-     print(f"{lenght} | {"*" * lenghts[lenght]} | {lenghts[lenght]}")
+     print(f"{lenght:<4} | {"*" * lenghts[lenght]:<18} | {lenghts[lenght]:<3}")
